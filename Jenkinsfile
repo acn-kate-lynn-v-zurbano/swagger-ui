@@ -1,4 +1,4 @@
-pipeline {
+/*pipeline {
     //Dont change this. This agent definition keeps the jobs using up nodes for management.
     agent none
 
@@ -177,4 +177,24 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr:'10'))
         timeout(time: 60, unit: 'MINUTES')
     }
+}
+*/
+
+pipeline {
+	agent none
+	stages {
+		stage ('Initialize') {
+			agent { label 'concierge-jp-workforce' }
+			steps {
+				sh 'printenv'
+			}
+		}
+		stage ('Sample') {
+			agent { label 'concierge-jp-workforce' }
+			steps {
+				sh 'ls'
+				sh "echo $SSH_CONNECTION"
+			}
+		}
+	}
 }

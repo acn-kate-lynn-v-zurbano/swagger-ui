@@ -4,8 +4,8 @@ pipeline {
 
     //defining common variables.
     environment{
-    GITHUB_URL = "https://github.com/fastretailing/AR2-Frontend-ref-component.git"
-    PROJECT_NAME = "AR2-Frontend-ref-component"
+    GITHUB_URL = "https://github.com/fastretailing/swagger-ui.git"
+    PROJECT_NAME = "Concierge-Test"
     SLACK_CHANNEL = "#frontend"
     }
 
@@ -18,7 +18,7 @@ pipeline {
 
     stages {
         stage ('Initialize') {
-        agent { label 'dynamic-jp' }
+        agent { label 'concierge-jp-workforce' }
             steps {
                 sh 'echo "Hello"'
                 sh "printenv"
@@ -27,12 +27,12 @@ pipeline {
 
 
         stage('Building') {
-        agent { label 'dynamic-jp' }
+        agent { label 'concierge-jp-workforce' }
             steps {
                 cleanWs()
                 checkout scm: [
                         $class: 'GitSCM',
-                        userRemoteConfigs: [[credentialsId: 'github-deploybot-account', url: "${GIT_URL}"]],
+                        userRemoteConfigs: [[credentialsId: 'fcd936c1-9949-4e72-b6c9-8819ac7cb905', url: "${GIT_URL}"]],
                         branches: [[name: "${GIT_COMMIT}"]]
                 ]
 
@@ -45,7 +45,7 @@ pipeline {
         }
 
         stage('Scanning') {
-        agent { label 'dynamic-jp' }
+        agent { label 'concierge-jp-workforce' }
         when{
             anyOf { branch 'master'; branch 'hotfix' ; branch 'release' ; branch 'develop'}
         }
@@ -53,7 +53,7 @@ pipeline {
                 cleanWs()
                 checkout scm: [
                         $class: 'GitSCM',
-                        userRemoteConfigs: [[credentialsId: 'github-deploybot-account', url: "${GIT_URL}"]],
+                        userRemoteConfigs: [[credentialsId: 'fcd936c1-9949-4e72-b6c9-8819ac7cb905', url: "${GIT_URL}"]],
                         branches: [[name: "${GIT_COMMIT}"]]
                 ]
 
